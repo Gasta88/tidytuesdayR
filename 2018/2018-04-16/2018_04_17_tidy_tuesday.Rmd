@@ -1,0 +1,98 @@
+---
+title: "TidyTemplate"
+date: 2021-02-12
+output: html_output
+---
+
+# TidyTuesday
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(tidytuesdayR)
+
+```
+
+# Load the weekly Data
+
+Download the weekly data and make available in the `tt` object.
+
+```{r Load}
+
+tt <- tt_load("2018-04-16")
+
+```
+
+
+# Readme
+
+Take a look at the readme for the weekly data to get insight on the dataset.
+This includes a data dictionary, source, and a link to an article on the data.
+
+```{r Readme, eval = interactive()}
+
+tt
+
+```
+
+
+# Glimpse Data
+
+Take an initial look at the format of the data available.
+
+```{r Glimpse}
+
+tt %>% 
+  map(glimpse)
+
+```
+
+# Wrangle
+
+Explore the data and process it into a nice format for plotting! Access each dataset by name by using a dollarsign after the `tt` object and then the name of the data set.
+
+```{r Wrangle}
+
+# get the trend of Diabetes and Conflict deaths sub-plotted by nations over time
+
+deaths_df <- tt$global_mortality %>%
+  select(country, year,`Diabetes (%)`, `Conflict (%)` ) %>%
+  replace_na(list(`Diabetes (%)`= 0.000, `Conflict (%)`= 0.000)) %>%
+  filter(country%in% c("Italy", "Germany", "United Kingdom", "Portugal", "Russia", "Belgium", "France"))
+
+```
+
+
+# Visualize
+
+Using your processed dataset, create your unique visualization.
+
+```{r Visualize}
+ 
+p <- ggplot(deaths_df, aes(year,`Diabetes (%)`, `Conflict (%)`, label=year)) + 
+        geom_point() + 
+        geom_segment(aes(
+                    xend=c(tail(`Diabetes (%)`, n=-1), NA), 
+                    yend=c(tail(`Conflict (%)`, n=-1), NA)
+                  )
+        )
+
+p + facet_wrap(vars(country), ncol=5)
+  
+```
+
+# Save Image
+
+Save your image for sharing. Be sure to use the `#TidyTuesday` hashtag in your post on twitter! 
+
+```{r}
+
+# This will save your most recent plot
+ggsave(
+  filename = "My TidyTuesday Plot.png",
+  device = "png")
+
+```
