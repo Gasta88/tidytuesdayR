@@ -45,7 +45,6 @@ Explore the data and process it into a nice format for plotting! Access each dat
 
 ```{r Wrangle}
 
-# get the difference in percentage and shows the whiskers for variability
 countries_of_interest <- c("Italy", "United Kingdom", "Germany")
 deaths_df <- tt$global_mortality %>%
   select(-country_code) %>%
@@ -68,38 +67,15 @@ deaths_df <- tt$global_mortality %>%
 Using your processed dataset, create your unique visualization.
 
 ```{r Visualize}
-plot_by_country <- function(country){
-  L <- deaths_df$country == country
-  p <- ggplot(data = deaths_df[L,], aes(year)) +
-        geom_line(aes(y=min_value, colour="min_value", )) +
-        geom_point(aes(y=min_value, , colour="min_value", shape=factor(min_cause))) +
-        geom_line(aes(y=max_value, colour="max_value")) +
-        geom_point(aes(y=max_value, colour="max_value", shape=factor(max_cause))) +
-        geom_line(aes(y=avg_value, colour="avg_value")) +
-        labs(y="casualties percentage", col="high/avg/low", shape="max/min causes", title=unique(country))
-  p
-}
+p <- ggplot(data = deaths_df, aes(year)) +
+      geom_line(aes(y=min_value, colour="min_value", )) +
+      geom_point(aes(y=min_value, , colour="min_value", shape=factor(min_cause))) +
+      geom_line(aes(y=max_value, colour="max_value")) +
+      geom_point(aes(y=max_value, colour="max_value", shape=factor(max_cause))) +
+      geom_line(aes(y=avg_value, colour="avg_value")) + 
+      labs(y="casualties percentage", col="value", shape="causes")
 
-for (c in seq_along(countries_of_interest)){
-  plot_by_country(country = countries_of_interest[c])
-}
-
-
-# plot_by_country <- function(x=deaths_df){
-#   countries <- unique(x$country)
-#   for (i in seq_along(countries)){
-#     p <- ggplot(data = filter(x, country == countries[i]), aes(year)) +
-#           geom_line(aes(y=min_value, colour="min_value", )) +
-#           geom_point(aes(y=min_value, , colour="min_value", shape=factor(min_cause))) +
-#           geom_line(aes(y=max_value, colour="max_value")) + 
-#           geom_point(aes(y=max_value, colour="max_value", shape=factor(max_cause))) +
-#           geom_line(aes(y=avg_value, colour="avg_value")) + 
-#           labs(y="casualties percentage", col="high/avg/low", shape="max/min causes", title=unique(country))
-#     print(p)
-#   }
-# }
-
-# plot_by_country()
+p + facet_wrap(~ country, nrow = 3,scales = "free")
 
 ```
 
@@ -110,8 +86,8 @@ Save your image for sharing. Be sure to use the `#TidyTuesday` hashtag in your p
 ```{r}
 
 # This will save your most recent plot
-# ggsave(
-#   filename = "My TidyTuesday Plot.png",
-#   device = "png")
+ggsave(
+  filename = "My TidyTuesday Plot.png",
+  device = "png", dpi=700)
 
 ```

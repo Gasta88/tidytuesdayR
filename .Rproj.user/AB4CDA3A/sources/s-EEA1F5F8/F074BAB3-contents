@@ -1,0 +1,93 @@
+---
+title: "TidyTemplate"
+date: 2021-02-12
+output: html_output
+---
+
+# TidyTuesday
+
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(tidytuesdayR)
+library(ggrepel)
+library(ggplot2)
+
+```
+
+# Load the weekly Data
+
+Download the weekly data and make available in the `tt` object.
+
+```{r Load}
+
+tt <- tt_load("2018-04-16")
+
+```
+
+# Glimpse Data
+
+Take an initial look at the format of the data available.
+
+```{r Glimpse}
+
+tt %>% 
+  map(glimpse)
+
+```
+
+# Wrangle
+
+Explore the data and process it into a nice format for plotting! Access each dataset by name by using a dollarsign after the `tt` object and then the name of the data set.
+
+```{r Wrangle}
+
+countries_of_interest <- c("Italy", "United Kingdom", "Germany")
+deaths_df <- tt$global_mortality %>%
+  select(-country_code) %>%
+  mutate_if(is.numeric , replace_na, replace = 0.000) %>%
+  group_by(country) %>%
+  pivot_longer(cols=contains("(%)"), names_to="cause") %>%
+  group_by(country, year) %>%
+  summarise(max_value=max(value),
+         max_cause=cause[which.max(value)],
+         min_value=min(value),
+         min_cause=cause[which.min(value)],
+         avg_value=mean(value)) %>%
+  filter(country %in% countries_of_interest)
+
+```
+
+
+# Visualize
+
+Using your processed dataset, create your unique visualization.
+
+```{r Visualize}
+p <- ggplot(data = deaths_df, aes(year)) +
+      geom_line(aes(y=min_value, colour="min_value", )) +
+      geom_point(aes(y=min_value, , colour="min_value", shape=factor(min_cause))) +
+      geom_line(aes(y=max_value, colour="max_value")) +
+      geom_point(aes(y=max_value, colour="max_value", shape=factor(max_cause))) +
+      geom_line(aes(y=avg_value, colour="avg_value")) + 
+      labs(y="casualties percentage", col="value", shape="causes")
+
+p + facet_wrap(~ country, nrow = 3,scales = "free")
+
+```
+
+# Save Image
+
+Save your image for sharing. Be sure to use the `#TidyTuesday` hashtag in your post on twitter! 
+
+```{r}
+
+# This will save your most recent plot
+ggsave(
+  filename = "My TidyTuesday Plot.png",
+  device = "png", dpi=700)
+
+```

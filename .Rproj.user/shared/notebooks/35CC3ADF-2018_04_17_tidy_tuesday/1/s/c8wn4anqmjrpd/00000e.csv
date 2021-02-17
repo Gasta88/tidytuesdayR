@@ -1,5 +1,4 @@
 "0",""
-"0","# get the difference in percentage and shows the whiskers for variability"
 "0","countries_of_interest <- c(""Italy"", ""United Kingdom"", ""Germany"")"
 "0","deaths_df <- tt$global_mortality %>%"
 "0","  select(-country_code) %>%"

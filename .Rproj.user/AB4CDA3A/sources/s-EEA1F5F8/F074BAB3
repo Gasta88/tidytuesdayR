@@ -3,7 +3,7 @@
     "path": "~/git_repo/tidytuesdayR/2018/2018-04-16/2018_04_17_tidy_tuesday.Rmd",
     "project_path": "2018/2018-04-16/2018_04_17_tidy_tuesday.Rmd",
     "type": "r_markdown",
-    "hash": "1106758698",
+    "hash": "3330686702",
     "contents": "",
     "dirty": false,
     "created": 1613163248380.0,
@@ -12,16 +12,16 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "79,3",
-        "scrollLine": "69",
-        "last_setup_crc32": "0971FD2863091074"
+        "cursorPosition": "77,34",
+        "scrollLine": "72",
+        "last_setup_crc32": "EEA1F5F863091074"
     },
     "folds": "",
-    "lastKnownWriteTime": 1613508647,
+    "lastKnownWriteTime": 1613594683,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1613508647530,
+    "last_content_update": 1613594683228,
     "read_only": false,
     "read_only_alternatives": []
 }
