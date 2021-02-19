@@ -1,0 +1,4 @@
+"0","ggplot(data = main_df)+"
+"0","  geom_bar(mapping = aes(x = sex, fill = align), position = ""dodge"")+"
+"0","  facet_wrap(~ publisher, nrow = 3,scales = ""free"")+"
+"0","  labs(title=""Alignment/sex difference between Marvel and DC comics"", x= ""Sex"", y=""Count"")"
