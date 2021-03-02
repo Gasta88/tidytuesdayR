@@ -1,8 +1,0 @@
-"0",""
-"0","# get number of good vs evil / DC vs Marvel / male vs female in one single plot"
-"0","main_df <- tt$week9_comic_characters %>%"
-"0","  select(publisher, align, sex, appearances) %>%"
-"0","  replace_na(list(publisher = ""Independent Publisher"", align = ""Neutral Characters"", sex=""Agender Characters"", appearances=0)) %>%"
-"0","  mutate(align = ifelse(align == ""Reformed Criminals"", ""Good Characters"", align)) %>%"
-"0","  mutate(align = str_remove(align, ""Characters""),"
-"0","         sex= str_remove(sex, ""Characters""))"
