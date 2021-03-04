@@ -143,9 +143,6 @@ p4 <- ggplot(df3, aes(fill = wine_servings)) +
           axis.text.y = element_text(size = 7))
 
 
-# main_plot <- p1 / (p2 + p3 + p4) & theme(legend.position = "bottom")
-# main_plot + plot_layout(guides = "collect")
-
 main_plot <- p1 / ((p2 + p3 + p4) + plot_layout(guides = "collect") & theme(legend.position = "bottom"))
 
 ```
